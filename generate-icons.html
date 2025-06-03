@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PWA Icon Generator for Gironimo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            background: #f8fafc;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        canvas {
+            border: 1px solid #e5e7eb;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .icon-item {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-item h3 {
+            margin: 10px 0 5px 0;
+            color: #374151;
+        }
+
+        .icon-item p {
+            margin: 5px 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px 24px;
+            margin: 8px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #059669, #10b981);
+            font-size: 16px;
+            padding: 16px 32px;
+        }
+
+        .info-panel {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-panel h3 {
+            color: #1e40af;
+            margin-top: 0;
+        }
+
+        .progress {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎨 Gironimo PWA Icon Generator</h1>
+        <p class="subtitle">Generate all required PWA icons with proper sizes and formats for maximum compatibility
+        </p>
+
+        <div class="info-panel">
+            <h3>📱 PWA Icon Requirements</h3>
+            <p>Modern PWAs need icons for:</p>
+            <ul>
+                <li><strong>Favicon:</strong> Browser tabs and bookmarks (16x16, 32x32, 48x48)</li>
+                <li><strong>App Icons:</strong> Home screen installation (192x192, 512x512)</li>
+                <li><strong>Apple Touch:</strong> iOS devices (180x180)</li>
+                <li><strong>Maskable Icons:</strong> Android adaptive icons with safe zone</li>
+                <li><strong>Windows:</strong> Start menu and taskbar (144x144)</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="primary-btn" onclick="generateAllIcons()">🚀 Generate All PWA Icons</button>
+            <button onclick="downloadAllIcons()">📥 Download All</button>
+            <button onclick="clearIcons()">🗑️ Clear</button>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="icon-grid" id="iconContainer">
+            <!-- Icons will be generated here -->
+        </div>
+
+        <div class="info-panel" style="margin-top: 40px;">
+            <h3>📋 Installation Instructions</h3>
+            <ol>
+                <li>Click "Generate All PWA Icons" to create all required icons</li>
+                <li>Download each icon by clicking the download button</li>
+                <li>Place all PNG files in your <code>/public</code> directory</li>
+                <li>Update your HTML <code>&lt;head&gt;</code> with proper meta tags</li>
+                <li>Verify the manifest.json references match your icon filenames</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const PWA_ICONS = [
+            // Standard Favicons
+            { size: 16, name: 'icons/favicon-16x16.png', purpose: 'Browser favicon', type: 'favicon' },
+            { size: 32, name: 'icons/favicon-32x32.png', purpose: 'Browser favicon', type: 'favicon' },
+            { size: 48, name: 'icons/favicon-48x48.png', purpose: 'Browser favicon', type: 'favicon' },
+
+            // Apple Touch Icons
+            { size: 180, name: 'icons/apple-touch-icon.png', purpose: 'iOS home screen', type: 'apple' },
+
+            // Android/Chrome Icons (using exact manifest names)
+            { size: 72, name: 'icons/icon-72x72.png', purpose: 'Small devices', type: 'android' },
+            { size: 96, name: 'icons/icon-96x96.png', purpose: 'Small devices', type: 'android' },
+            { size: 128, name: 'icons/icon-128x128.png', purpose: 'Chrome Web Store', type: 'android' },
+            { size: 192, name: 'icons/android-chrome-192x192.png', purpose: 'Android home screen', type: 'android' },
+            { size: 256, name: 'icons/icon-256x256.png', purpose: 'Large displays', type: 'android' },
+            { size: 512, name: 'icons/android-chrome-512x512.png', purpose: 'Android splash screen', type: 'android' },
+
+            // Maskable Icons (Android Adaptive)
+            { size: 192, name: 'icons/maskable-icon-192x192.png', purpose: 'Android adaptive icon', type: 'maskable' },
+            { size: 512, name: 'icons/maskable-icon-512x512.png', purpose: 'Android adaptive icon', type: 'maskable' },
+
+            // Windows/Microsoft
+            { size: 144, name: 'icons/mstile-144x144.png', purpose: 'Windows Start menu', type: 'microsoft' },
+
+            // Screenshots for PWA store listings
+            { size: 1280, name: 'screenshots/desktop-dashboard.png', purpose: 'PWA store screenshot', type: 'screenshot', width: 1280, height: 720 },
+            { size: 390, name: 'screenshots/mobile-kanban.png', purpose: 'PWA store screenshot', type: 'screenshot', width: 390, height: 844 },
+        ];
+
+        function generateAllIcons() {
+            const container = document.getElementById('iconContainer');
+            container.innerHTML = '';
+
+            // Add instruction for directory creation
+            const instruction = document.createElement('div');
+            instruction.className = 'info-panel';
+            instruction.innerHTML = `
+                <h3>📁 Important: Create Directory Structure</h3>
+                <p>Before downloading, create these folders inside your <code>public</code> directory:</p>
+                <pre style="background: #f3f4f6; padding: 10px; border-radius: 4px; margin: 10px 0;">frontend/public/icons/
+frontend/public/screenshots/</pre>
+                <p>Download icons to the <code>icons</code> folder and screenshots to the <code>screenshots</code> folder.</p>
+            `;
+            container.appendChild(instruction);
+
+            let completed = 0;
+            const total = PWA_ICONS.length;
+
+            PWA_ICONS.forEach((iconConfig, index) => {
+                setTimeout(() => {
+                    generateIcon(iconConfig);
+                    completed++;
+                    updateProgress(completed, total);
+                }, index * 100);
+            });
+        }
+
+        function generateIcon({ size, name, purpose, type, width, height }) {
+            // Use custom dimensions for screenshots
+            const canvasWidth = width || size;
+            const canvasHeight = height || size;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            const ctx = canvas.getContext('2d');
+
+            // Different styling based on icon type
+            if (type === 'screenshot') {
+                drawScreenshot(ctx, canvasWidth, canvasHeight, name.includes('mobile'));
+            } else if (type === 'maskable') {
+                drawMaskableIcon(ctx, size);
+            } else {
+                drawStandardIcon(ctx, size);
+            }
+
+            // Create container
+            const iconItem = document.createElement('div');
+            iconItem.className = 'icon-item';
+
+            // Extract just the filename for display
+            const filename = name.split('/').pop();
+
+            iconItem.innerHTML = `
+                <h3>${filename}</h3>
+                <p>${canvasWidth}×${canvasHeight} • ${purpose}</p>
+                <p style="font-size: 12px; color: #9ca3af;">${getIconTypeDescription(type)}</p>
+                <p style="font-size: 11px; color: #ef4444; font-weight: 500;">Save to: public/${name}</p>
+            `;
+
+            iconItem.appendChild(canvas);
+
+            // Add download button
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = `📥 Download ${filename}`;
+            downloadBtn.onclick = () => downloadCanvas(canvas, filename);
+            iconItem.appendChild(downloadBtn);
+
+            document.getElementById('iconContainer').appendChild(iconItem);
+        }
+
+        function drawScreenshot(ctx, width, height, isMobile) {
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, '#f8fafc');
+            gradient.addColorStop(1, '#e2e8f0');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            if (isMobile) {
+                // Mobile Kanban Board mockup
+                drawMobileKanban(ctx, width, height);
+            } else {
+                // Desktop Dashboard mockup
+                drawDesktopDashboard(ctx, width, height);
+            }
+        }
+
+        function drawDesktopDashboard(ctx, width, height) {
+            // Header bar
+            ctx.fillStyle = '#1f2937';
+            ctx.fillRect(0, 0, width, height * 0.08);
+
+            // Header text
+            ctx.fillStyle = 'white';
+            ctx.font = `${height * 0.025}px Arial`;
+            ctx.fillText('Gironimo - Project Dashboard', width * 0.02, height * 0.05);
+
+            // Sidebar
+            ctx.fillStyle = '#374151';
+            ctx.fillRect(0, height * 0.08, width * 0.2, height * 0.92);
+
+            // Main content area
+            ctx.fillStyle = 'white';
+            ctx.fillRect(width * 0.2, height * 0.08, width * 0.8, height * 0.92);
+
+            // Cards mockup
+            const cardWidth = width * 0.18;
+            const cardHeight = height * 0.15;
+            const startX = width * 0.25;
+            const startY = height * 0.15;
+
+            for (let i = 0; i < 4; i++) {
+                const x = startX + (i % 2) * (cardWidth + width * 0.05);
+                const y = startY + Math.floor(i / 2) * (cardHeight + height * 0.05);
+
+                // Card background
+                ctx.fillStyle = '#f3f4f6';
+                ctx.fillRect(x, y, cardWidth, cardHeight);
+
+                // Card title
+                ctx.fillStyle = '#1f2937';
+                ctx.font = `${height * 0.02}px Arial`;
+                ctx.fillText(['Tasks', 'Projects', 'Calendar', 'Reports'][i], x + cardWidth * 0.05, y + cardHeight * 0.2);
+            }
+        }
+
+        function drawMobileKanban(ctx, width, height) {
+            // Header
+            ctx.fillStyle = '#1f2937';
+            ctx.fillRect(0, 0, width, height * 0.1);
+
+            // Header text
+            ctx.fillStyle = 'white';
+            ctx.font = `${height * 0.025}px Arial`;
+            ctx.fillText('Kanban Board', width * 0.05, height * 0.065);
+
+            // Kanban columns
+            const columnWidth = width * 0.28;
+            const columnHeight = height * 0.8;
+            const startY = height * 0.12;
+
+            const columns = ['To Do', 'In Progress', 'Done'];
+            const colors = ['#fef3c7', '#dbeafe', '#dcfce7'];
+
+            columns.forEach((title, i) => {
+                const x = width * 0.04 + i * (columnWidth + width * 0.02);
+
+                // Column background
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, startY, columnWidth, columnHeight);
+
+                // Column title
+                ctx.fillStyle = '#1f2937';
+                ctx.font = `${height * 0.02}px Arial`;
+                ctx.fillText(title, x + columnWidth * 0.1, startY + height * 0.04);
+
+                // Task cards
+                for (let j = 0; j < 3; j++) {
+                    const cardY = startY + height * 0.08 + j * (height * 0.12);
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(x + columnWidth * 0.05, cardY, columnWidth * 0.9, height * 0.08);
+                }
+            });
+        }
+
+        function drawStandardIcon(ctx, size) {
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#3b82f6'); // Blue
+            gradient.addColorStop(0.5, '#6366f1'); // Indigo
+            gradient.addColorStop(1, '#8b5cf6'); // Purple
+
+            // Fill background with rounded corners
+            const radius = size * 0.15;
+            ctx.fillStyle = gradient;
+            roundRect(ctx, 0, 0, size, size, radius);
+            ctx.fill();
+
+            // Add subtle shadow effect
+            const shadowGradient = ctx.createRadialGradient(size / 2, size / 4, 0, size / 2, size / 2, size / 2);
+            shadowGradient.addColorStop(0, 'rgba(255,255,255,0.3)');
+            shadowGradient.addColorStop(1, 'rgba(0,0,0,0.1)');
+            ctx.fillStyle = shadowGradient;
+            roundRect(ctx, 0, 0, size, size, radius);
+            ctx.fill();
+
+            // Add letter "G"
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.55}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = size * 0.02;
+            ctx.shadowOffsetY = size * 0.01;
+            ctx.fillText('G', size / 2, size / 2);
+        }
+
+        function drawMaskableIcon(ctx, size) {
+            // Maskable icons need extra padding (safe zone)
+            const safeZone = size * 0.1; // 10% safe zone
+            const iconSize = size - (safeZone * 2);
+
+            // Fill entire canvas with background color
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#3b82f6');
+            gradient.addColorStop(1, '#8b5cf6');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Draw icon in safe zone
+            const radius = iconSize * 0.15;
+            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            roundRect(ctx, safeZone, safeZone, iconSize, iconSize, radius);
+            ctx.fill();
+
+            // Add letter "G" in safe zone
+            ctx.fillStyle = '#1f2937';
+            ctx.font = `bold ${iconSize * 0.55}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('G', size / 2, size / 2);
+        }
+
+        function roundRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        function getIconTypeDescription(type) {
+            const descriptions = {
+                'favicon': 'Browser tab icon',
+                'apple': 'iOS home screen icon',
+                'android': 'Android app icon',
+                'maskable': 'Android adaptive icon with safe zone',
+                'microsoft': 'Windows tile icon',
+                'screenshot': 'PWA store listing screenshot'
+            };
+            return descriptions[type] || 'PWA icon';
+        }
+
+        function downloadCanvas(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
+
+        function downloadAllIcons() {
+            const canvases = document.querySelectorAll('#iconContainer canvas');
+            const names = PWA_ICONS.map(icon => icon.name.split('/').pop()); // Get just filenames
+
+            if (canvases.length === 0) {
+                alert('Please generate icons first!');
+                return;
+            }
+
+            alert('Remember to create the "icons" folder in your public directory and place all downloaded files there!');
+
+            canvases.forEach((canvas, index) => {
+                setTimeout(() => downloadCanvas(canvas, names[index]), index * 300);
+            });
+        }
+
+        function clearIcons() {
+            document.getElementById('iconContainer').innerHTML = '';
+            updateProgress(0, 1);
+        }
+
+        function updateProgress(completed, total) {
+            const percentage = (completed / total) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+    </script>
+</body>
+
+</html>
