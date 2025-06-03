@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PWA Icon Generator for Gironimo</title>
+    <title>PWA Icon Generator @dmm1</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -110,14 +110,233 @@
             width: 0%;
             transition: width 0.3s;
         }
+
+        .customization-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .color-input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .color-input-group input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .preview-canvas {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            margin: 10px auto;
+            display: block;
+            background: #f9fafb;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .preset-btn {
+            padding: 6px 12px;
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .secondary-btn {
+            background: linear-gradient(135deg, #6b7280, #9ca3af);
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .secondary-btn:hover {
+            background: linear-gradient(135deg, #4b5563, #6b7280);
+        }
+
+        .danger-btn {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+        }
+
+        .danger-btn:hover {
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+        }
+
+        .history-info {
+            font-size: 11px;
+            color: #6b7280;
+            text-align: center;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>🎨 Gironimo PWA Icon Generator</h1>
-        <p class="subtitle">Generate all required PWA icons with proper sizes and formats for maximum compatibility
-        </p>
+        <h1>🎨 Universal PWA Icon Generator</h1>
+        <p class="subtitle">Generate all required PWA icons with custom design and colors</p>
+
+        <div class="customization-panel">
+            <h3>🎨 Customize Your Icon Design</h3>
+
+            <div class="form-grid">
+                <div>
+                    <div class="form-group">
+                        <label for="iconText">Icon Text/Letter</label>
+                        <input type="text" id="iconText" value="G" maxlength="3" placeholder="Enter text (max 3 chars)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fontSize">Font Size (%)</label>
+                        <input type="range" id="fontSize" min="30" max="80" value="55">
+                        <span id="fontSizeValue">55%</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fontWeight">Font Weight</label>
+                        <select id="fontWeight">
+                            <option value="normal">Normal</option>
+                            <option value="bold" selected>Bold</option>
+                            <option value="900">Extra Bold</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group">
+                        <label for="bgStyle">Background Style</label>
+                        <select id="bgStyle">
+                            <option value="gradient" selected>Gradient</option>
+                            <option value="solid">Solid Color</option>
+                            <option value="radial">Radial Gradient</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Primary Color</label>
+                        <div class="color-input-group">
+                            <input type="color" id="primaryColor" value="#3b82f6">
+                            <input type="text" id="primaryColorText" value="#3b82f6">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Secondary Color</label>
+                        <div class="color-input-group">
+                            <input type="color" id="secondaryColor" value="#8b5cf6">
+                            <input type="text" id="secondaryColorText" value="#8b5cf6">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group">
+                        <label>Text Color</label>
+                        <div class="color-input-group">
+                            <input type="color" id="textColor" value="#ffffff">
+                            <input type="text" id="textColorText" value="#ffffff">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cornerRadius">Corner Radius (%)</label>
+                        <input type="range" id="cornerRadius" min="0" max="50" value="15">
+                        <span id="cornerRadiusValue">15%</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="addShadow" checked> Add Text Shadow
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preset-buttons">
+                <button class="preset-btn" onclick="applyPreset('blue')">🔵 Blue Gradient</button>
+                <button class="preset-btn" onclick="applyPreset('purple')">🟣 Purple</button>
+                <button class="preset-btn" onclick="applyPreset('green')">🟢 Green</button>
+                <button class="preset-btn" onclick="applyPreset('orange')">🟠 Orange</button>
+                <button class="preset-btn" onclick="applyPreset('dark')">⚫ Dark</button>
+                <button class="preset-btn" onclick="applyPreset('rainbow')">🌈 Rainbow</button>
+            </div>
+
+            <div class="action-buttons">
+                <button class="secondary-btn" onclick="undoSettings()" id="undoBtn" disabled>↶ Undo</button>
+                <button class="secondary-btn danger-btn" onclick="clearSettings()">🗑️ Clear All</button>
+                <button onclick="updatePreview()">🔄 Update Preview</button>
+            </div>
+            <div class="history-info" id="historyInfo">No changes to undo</div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <h4>Live Preview (192x192)</h4>
+                <canvas id="previewCanvas" class="preview-canvas" width="120" height="120"></canvas>
+            </div>
+        </div>
 
         <div class="info-panel">
             <h3>📱 PWA Icon Requirements</h3>
@@ -284,7 +503,7 @@ frontend/public/screenshots/</pre>
             // Header text
             ctx.fillStyle = 'white';
             ctx.font = `${height * 0.025}px Arial`;
-            ctx.fillText('Gironimo - Project Dashboard', width * 0.02, height * 0.05);
+            ctx.fillText('Project Dashboard', width * 0.02, height * 0.05);
 
             // Sidebar
             ctx.fillStyle = '#374151';
@@ -354,62 +573,323 @@ frontend/public/screenshots/</pre>
             });
         }
 
-        function drawStandardIcon(ctx, size) {
-            // Create gradient background
-            const gradient = ctx.createLinearGradient(0, 0, size, size);
-            gradient.addColorStop(0, '#3b82f6'); // Blue
-            gradient.addColorStop(0.5, '#6366f1'); // Indigo
-            gradient.addColorStop(1, '#8b5cf6'); // Purple
+        // Icon customization settings
+        let iconSettings = {
+            text: 'G',
+            fontSize: 55,
+            fontWeight: 'bold',
+            bgStyle: 'gradient',
+            primaryColor: '#3b82f6',
+            secondaryColor: '#8b5cf6',
+            textColor: '#ffffff',
+            cornerRadius: 15,
+            addShadow: true
+        };
 
-            // Fill background with rounded corners
-            const radius = size * 0.15;
+        // Settings history for undo functionality
+        let settingsHistory = [];
+        let maxHistorySize = 10;
+
+        // Default settings for reset
+        const defaultSettings = {
+            text: 'G',
+            fontSize: 55,
+            fontWeight: 'bold',
+            bgStyle: 'gradient',
+            primaryColor: '#3b82f6',
+            secondaryColor: '#8b5cf6',
+            textColor: '#ffffff',
+            cornerRadius: 15,
+            addShadow: true
+        };
+
+        // Initialize color input synchronization
+        document.addEventListener('DOMContentLoaded', function () {
+            setupColorInputs();
+            setupRangeInputs();
+            setupFormInputs();
+            saveSettingsToHistory(); // Save initial state
+            updatePreview();
+        });
+
+        function setupColorInputs() {
+            const colorPairs = [
+                ['primaryColor', 'primaryColorText'],
+                ['secondaryColor', 'secondaryColorText'],
+                ['textColor', 'textColorText']
+            ];
+
+            colorPairs.forEach(([colorId, textId]) => {
+                const colorInput = document.getElementById(colorId);
+                const textInput = document.getElementById(textId);
+
+                colorInput.addEventListener('input', () => {
+                    textInput.value = colorInput.value;
+                    updateSettings();
+                });
+
+                textInput.addEventListener('input', () => {
+                    if (/^#[0-9A-F]{6}$/i.test(textInput.value)) {
+                        colorInput.value = textInput.value;
+                        updateSettings();
+                    }
+                });
+            });
+        }
+
+        function setupRangeInputs() {
+            const fontSize = document.getElementById('fontSize');
+            const fontSizeValue = document.getElementById('fontSizeValue');
+            fontSize.addEventListener('input', () => {
+                fontSizeValue.textContent = fontSize.value + '%';
+                updateSettings();
+            });
+
+            const cornerRadius = document.getElementById('cornerRadius');
+            const cornerRadiusValue = document.getElementById('cornerRadiusValue');
+            cornerRadius.addEventListener('input', () => {
+                cornerRadiusValue.textContent = cornerRadius.value + '%';
+                updateSettings();
+            });
+        }
+
+        function setupFormInputs() {
+            const inputs = ['iconText', 'fontWeight', 'bgStyle', 'addShadow'];
+            inputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', updateSettings);
+                document.getElementById(id).addEventListener('change', updateSettings);
+            });
+        }
+
+        function updateSettings() {
+            // Save current settings to history before updating
+            saveSettingsToHistory();
+
+            iconSettings = {
+                text: document.getElementById('iconText').value || 'G',
+                fontSize: parseInt(document.getElementById('fontSize').value),
+                fontWeight: document.getElementById('fontWeight').value,
+                bgStyle: document.getElementById('bgStyle').value,
+                primaryColor: document.getElementById('primaryColor').value,
+                secondaryColor: document.getElementById('secondaryColor').value,
+                textColor: document.getElementById('textColor').value,
+                cornerRadius: parseInt(document.getElementById('cornerRadius').value),
+                addShadow: document.getElementById('addShadow').checked
+            };
+            updatePreview();
+            updateHistoryUI();
+        }
+
+        function updatePreview() {
+            const canvas = document.getElementById('previewCanvas');
+            const ctx = canvas.getContext('2d');
+            drawCustomIcon(ctx, 120, iconSettings);
+        }
+
+        function saveSettingsToHistory() {
+            // Create a deep copy of current settings
+            const currentState = {
+                text: document.getElementById('iconText')?.value || iconSettings.text,
+                fontSize: parseInt(document.getElementById('fontSize')?.value || iconSettings.fontSize),
+                fontWeight: document.getElementById('fontWeight')?.value || iconSettings.fontWeight,
+                bgStyle: document.getElementById('bgStyle')?.value || iconSettings.bgStyle,
+                primaryColor: document.getElementById('primaryColor')?.value || iconSettings.primaryColor,
+                secondaryColor: document.getElementById('secondaryColor')?.value || iconSettings.secondaryColor,
+                textColor: document.getElementById('textColor')?.value || iconSettings.textColor,
+                cornerRadius: parseInt(document.getElementById('cornerRadius')?.value || iconSettings.cornerRadius),
+                addShadow: document.getElementById('addShadow')?.checked ?? iconSettings.addShadow
+            };
+
+            // Don't save if it's the same as the last entry
+            if (settingsHistory.length > 0) {
+                const lastEntry = settingsHistory[settingsHistory.length - 1];
+                if (JSON.stringify(lastEntry) === JSON.stringify(currentState)) {
+                    return;
+                }
+            }
+
+            settingsHistory.push(currentState);
+
+            // Limit history size
+            if (settingsHistory.length > maxHistorySize) {
+                settingsHistory.shift();
+            }
+        }
+
+        function undoSettings() {
+            if (settingsHistory.length < 2) {
+                return; // Need at least 2 entries (current + previous)
+            }
+
+            // Remove current state and get previous
+            settingsHistory.pop();
+            const previousSettings = settingsHistory[settingsHistory.length - 1];
+
+            // Apply previous settings to form controls
+            applySettingsToForm(previousSettings);
+
+            // Update icon settings
+            iconSettings = { ...previousSettings };
+            updatePreview();
+            updateHistoryUI();
+        }
+
+        function clearSettings() {
+            if (confirm('Are you sure you want to reset all settings to default?')) {
+                // Save current state to history before clearing
+                saveSettingsToHistory();
+
+                // Apply default settings to form
+                applySettingsToForm(defaultSettings);
+
+                // Reset icon settings
+                iconSettings = { ...defaultSettings };
+                updatePreview();
+                updateHistoryUI();
+            }
+        }
+
+        function applySettingsToForm(settings) {
+            document.getElementById('iconText').value = settings.text;
+            document.getElementById('fontSize').value = settings.fontSize;
+            document.getElementById('fontSizeValue').textContent = settings.fontSize + '%';
+            document.getElementById('fontWeight').value = settings.fontWeight;
+            document.getElementById('bgStyle').value = settings.bgStyle;
+            document.getElementById('primaryColor').value = settings.primaryColor;
+            document.getElementById('primaryColorText').value = settings.primaryColor;
+            document.getElementById('secondaryColor').value = settings.secondaryColor;
+            document.getElementById('secondaryColorText').value = settings.secondaryColor;
+            document.getElementById('textColor').value = settings.textColor;
+            document.getElementById('textColorText').value = settings.textColor;
+            document.getElementById('cornerRadius').value = settings.cornerRadius;
+            document.getElementById('cornerRadiusValue').textContent = settings.cornerRadius + '%';
+            document.getElementById('addShadow').checked = settings.addShadow;
+        }
+
+        function updateHistoryUI() {
+            const undoBtn = document.getElementById('undoBtn');
+            const historyInfo = document.getElementById('historyInfo');
+
+            if (settingsHistory.length < 2) {
+                undoBtn.disabled = true;
+                historyInfo.textContent = 'No changes to undo';
+            } else {
+                undoBtn.disabled = false;
+                historyInfo.textContent = `${settingsHistory.length - 1} change(s) available to undo`;
+            }
+        }
+
+        function applyPreset(preset) {
+            // Save current state before applying preset
+            saveSettingsToHistory();
+
+            const presets = {
+                blue: { primaryColor: '#3b82f6', secondaryColor: '#8b5cf6', textColor: '#ffffff' },
+                purple: { primaryColor: '#8b5cf6', secondaryColor: '#ec4899', textColor: '#ffffff' },
+                green: { primaryColor: '#059669', secondaryColor: '#10b981', textColor: '#ffffff' },
+                orange: { primaryColor: '#ea580c', secondaryColor: '#f59e0b', textColor: '#ffffff' },
+                dark: { primaryColor: '#1f2937', secondaryColor: '#374151', textColor: '#ffffff' },
+                rainbow: { primaryColor: '#ff0000', secondaryColor: '#8b5cf6', textColor: '#ffffff' }
+            };
+
+            if (presets[preset]) {
+                Object.keys(presets[preset]).forEach(key => {
+                    const value = presets[preset][key];
+                    document.getElementById(key).value = value;
+                    if (document.getElementById(key + 'Text')) {
+                        document.getElementById(key + 'Text').value = value;
+                    }
+                });
+                updateSettings();
+            }
+        }
+
+        function drawCustomIcon(ctx, size, settings) {
+            ctx.clearRect(0, 0, size, size);
+
+            // Create background based on style
+            let gradient;
+            if (settings.bgStyle === 'gradient') {
+                gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, settings.primaryColor);
+                gradient.addColorStop(1, settings.secondaryColor);
+            } else if (settings.bgStyle === 'radial') {
+                gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+                gradient.addColorStop(0, settings.primaryColor);
+                gradient.addColorStop(1, settings.secondaryColor);
+            } else {
+                gradient = settings.primaryColor;
+            }
+
+            // Draw background with rounded corners
+            const radius = size * (settings.cornerRadius / 100);
             ctx.fillStyle = gradient;
             roundRect(ctx, 0, 0, size, size, radius);
             ctx.fill();
 
-            // Add subtle shadow effect
-            const shadowGradient = ctx.createRadialGradient(size / 2, size / 4, 0, size / 2, size / 2, size / 2);
-            shadowGradient.addColorStop(0, 'rgba(255,255,255,0.3)');
-            shadowGradient.addColorStop(1, 'rgba(0,0,0,0.1)');
-            ctx.fillStyle = shadowGradient;
-            roundRect(ctx, 0, 0, size, size, radius);
-            ctx.fill();
+            // Add text shadow if enabled
+            if (settings.addShadow) {
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = size * 0.02;
+                ctx.shadowOffsetY = size * 0.01;
+            } else {
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+            }
 
-            // Add letter "G"
-            ctx.fillStyle = 'white';
-            ctx.font = `bold ${size * 0.55}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+            // Draw text
+            ctx.fillStyle = settings.textColor;
+            ctx.font = `${settings.fontWeight} ${size * (settings.fontSize / 100)}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = size * 0.02;
-            ctx.shadowOffsetY = size * 0.01;
-            ctx.fillText('G', size / 2, size / 2);
+            ctx.fillText(settings.text, size / 2, size / 2);
+        }
+
+        function drawStandardIcon(ctx, size) {
+            drawCustomIcon(ctx, size, iconSettings);
         }
 
         function drawMaskableIcon(ctx, size) {
             // Maskable icons need extra padding (safe zone)
-            const safeZone = size * 0.1; // 10% safe zone
+            const safeZone = size * 0.1;
             const iconSize = size - (safeZone * 2);
 
             // Fill entire canvas with background color
-            const gradient = ctx.createLinearGradient(0, 0, size, size);
-            gradient.addColorStop(0, '#3b82f6');
-            gradient.addColorStop(1, '#8b5cf6');
+            let gradient;
+            if (iconSettings.bgStyle === 'gradient') {
+                gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, iconSettings.primaryColor);
+                gradient.addColorStop(1, iconSettings.secondaryColor);
+            } else if (iconSettings.bgStyle === 'radial') {
+                gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+                gradient.addColorStop(0, iconSettings.primaryColor);
+                gradient.addColorStop(1, iconSettings.secondaryColor);
+            } else {
+                gradient = iconSettings.primaryColor;
+            }
+
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, size, size);
 
-            // Draw icon in safe zone
-            const radius = iconSize * 0.15;
-            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            // Draw icon in safe zone with a slight background for contrast
+            const radius = iconSize * (iconSettings.cornerRadius / 100);
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
             roundRect(ctx, safeZone, safeZone, iconSize, iconSize, radius);
             ctx.fill();
 
-            // Add letter "G" in safe zone
-            ctx.fillStyle = '#1f2937';
-            ctx.font = `bold ${iconSize * 0.55}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+            // Add text in safe zone
+            if (iconSettings.addShadow) {
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = size * 0.02;
+                ctx.shadowOffsetY = size * 0.01;
+            }
+
+            ctx.fillStyle = iconSettings.textColor;
+            ctx.font = `${iconSettings.fontWeight} ${iconSize * (iconSettings.fontSize / 100)}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('G', size / 2, size / 2);
+            ctx.fillText(iconSettings.text, size / 2, size / 2);
         }
 
         function roundRect(ctx, x, y, width, height, radius) {
@@ -462,8 +942,10 @@ frontend/public/screenshots/</pre>
         }
 
         function clearIcons() {
-            document.getElementById('iconContainer').innerHTML = '';
-            updateProgress(0, 1);
+            if (confirm('Are you sure you want to clear all generated icons?')) {
+                document.getElementById('iconContainer').innerHTML = '';
+                updateProgress(0, 1);
+            }
         }
 
         function updateProgress(completed, total) {
