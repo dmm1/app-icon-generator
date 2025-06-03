@@ -232,6 +232,79 @@
             text-align: center;
             margin-top: 5px;
         }
+
+        .footer {
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 2px solid #e5e7eb;
+            text-align: center;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 12px;
+        }
+
+        .footer .love {
+            font-size: 18px;
+            color: #374151;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer .love .heart {
+            color: #ef4444;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .footer .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #1f2937, #374151);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .footer .github-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #374151, #4b5563);
+        }
+
+        .footer .copyright {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .austria-flag {
+            display: inline-block;
+            width: 20px;
+            height: 14px;
+            background: linear-gradient(to bottom, #ed2939 0%, #ed2939 33%, #ffffff 33%, #ffffff 66%, #ed2939 66%);
+            border-radius: 2px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
     </style>
 </head>
 
@@ -374,6 +447,22 @@
                 <li>Verify the manifest.json references match your icon filenames</li>
             </ol>
         </div>
+
+        <footer class="footer">
+            <div class="love">
+                Made with <span class="heart">❤️</span> in Austria <span class="austria-flag"></span>
+            </div>
+            <a href="https://github.com/dmm1" target="_blank" rel="noopener noreferrer" class="github-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                GitHub @dmm1
+            </a>
+            <div class="copyright">
+                © 2024 Universal PWA Icon Generator. Open source project.
+            </div>
+        </footer>
     </div>
 
     <script>
